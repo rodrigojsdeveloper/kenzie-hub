@@ -11,23 +11,17 @@ export const Container = styled.div`
     flex-direction: column;
     animation: ${animacaoForm} 1s;
 
-    margin: 10px 10px 40px 10px;
+    margin: 40px 15px 50px 15px;
 
     .divLogo {
         display: flex;
+        align-items: center;
         justify-content: space-between;
 
         max-width: 370px;
         width: 100%;
 
-        padding: 50px 0 40px 0;
-
-        align-items: center;
-
-        img {
-            height: 21.21px;
-            width: 144.06px;
-        }
+        padding: 40px 0;
     }
 `
 
@@ -53,10 +47,13 @@ export const Content = styled.div`
         
         .divTitulo {
             text-align: center;
+            margin-bottom: 20px;
             
             h1 {
                 font-size: 18px;
                 line-height: 28px;
+                font-weight: 700;
+                
                 margin-bottom: 16px;
             }
 

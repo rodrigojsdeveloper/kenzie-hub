@@ -19,29 +19,13 @@ export const Container = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-
     flex-direction: column;
 
     animation: ${animacaoForm} 1s;
+    margin: 30px 15px 50px 15px;
 
-    margin: 0 10px 30px 10px;
-
-
-    .divLogo {
-        display: flex;
-        justify-content: center;
-
-        max-width: 370px;
-        width: 100%;
-
-        padding: 50px 0 40px 0;
-
-        align-items: center;
-
-        img {
-            height: 21.21px;
-            width: 144.06px;
-        }
+    & > img {
+        padding: 80px 0 40px 0;
     }
 `
 
@@ -52,8 +36,9 @@ export const Content = styled.div`
     align-items: center;
     justify-content: center;
 
-    max-width: 370px;
+    max-width: 369px;
     width: 100%;
+    height: 502px;
 
     form {
         background: var(--background-form);
@@ -85,9 +70,11 @@ export const Content = styled.div`
             text-align: center;
             
             h1 {
+                font-weight: 700;
                 font-size: 18px;
                 line-height: 28px;
-                margin-bottom: 16px;
+
+                margin-bottom: 30px;
             }
 
             span {
@@ -99,8 +86,14 @@ export const Content = styled.div`
             }
         }
 
-        > div {
-            margin-top: 16px;
+        & > div {
+            & > p {
+                margin-top: 16px;
+                                
+                font-weight: 600;
+                font-size: 12px;
+                line-height: 18px;
+            }
         }
     }
 `

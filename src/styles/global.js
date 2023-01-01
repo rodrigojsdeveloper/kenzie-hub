@@ -28,12 +28,9 @@ export default createGlobalStyle`
         color: var(--branco);
     }
 
-    body, input, button {
-        font-size: 1rem;
-    }
-
     button {
         cursor: pointer;
+        transition: 0.4s;
     }
 
     a {

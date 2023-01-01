@@ -6,8 +6,11 @@ export const Container = styled.button`
     border-radius: 4px;
     transition: .5s;
 
-    color: var(--branco);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 26px;
 
+    color: var(--branco);
     border: 1.2182px solid;
 
     background: ${props => props.border ? "#FF577F" : "#212529"};

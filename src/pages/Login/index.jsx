@@ -4,7 +4,7 @@ import { Container, Content } from "./style"
 import Button from "../../components/Button"
 import Input from "../../components/Input"
 import { useForm } from "react-hook-form"
-import Logo from "../../assets/Logo.png"
+import Logo from "../../assets/Logo.svg"
 import React, { useState } from "react"
 import { toast } from "react-toastify"
 import api from "../../services/api"
@@ -62,10 +62,7 @@ const Login = ({ autenticacao, setAutenticacao, setUser, setCards }) => {
 
     return (
         <Container>
-
-            <div className="divLogo">
-                <img src={Logo} alt="Kenzie Hub" />
-            </div>
+            <img src={Logo} alt="Kenzie Hub" />
 
             <Content>
                 <form onSubmit={ handleSubmit(onSubmitFunction) }>
