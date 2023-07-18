@@ -1,75 +1,74 @@
-import styled, { css } from "styled-components"
-
+import styled, { css } from "styled-components";
 
 export const Container = styled.div`
+  text-align: left;
 
-    text-align: left;
+  div {
+    margin-bottom: 25px;
 
-    div {
-        margin-bottom: 25px;
+    font-weight: 400;
+    font-size: 12.182px;
+    line-height: 0px;
 
-        font-weight: 400;
-        font-size: 12.182px;
-        line-height: 0px;
-
-        span {
-            color: var(--erro);
-        }
+    span {
+      color: var(--erro);
     }
-`
+  }
+`;
 
 export const InputContainer = styled.div`
+  background: var(--botao-secundario-hover);
+  color: var(--botao-secundario);
 
-    background: var(--botao-secundario-hover);
-    color: var(--botao-secundario);
-    
-    height: 48px;
+  height: 48px;
+  width: 100%;
+  max-width: 329.93px;
+
+  display: flex;
+  flex-direction: row;
+  border-radius: 4px;
+
+  input {
+    background: transparent;
+    color: var(--branco);
+
+    font-weight: 400;
+    font-size: 16.2426px;
+    line-height: 26px;
+
     width: 100%;
     max-width: 329.93px;
 
-    display: flex;
-    flex-direction: row;
+    padding: 0px 16.2426px;
     border-radius: 4px;
+    border: 1.2182px solid;
 
-    input {
-        background: transparent;
-        color: var(--branco);
+    border-color: ${(props) => (props.border ? "#343B41" : "#F8F9FA")};
 
-        font-weight: 400;
-        font-size: 16.2426px;
-        line-height: 26px;
+    ${(props) =>
+      props.isErrored &&
+      css`
+        border-color: var(--erro);
 
-        width: 100%;
-        max-width: 329.93px;
-
-        padding: 0px 16.2426px;
-        border-radius: 4px;
-        border: 1.2182px solid;
-
-        border-color: ${props => props.border ? "#343B41" : "#F8F9FA"};
-
-        ${props => props.isErrored && css`
-            border-color: var(--erro);
-
-            :focus {
-                border-color: ${props => props.border ? "#343B41" : "#F8F9FA"};
-            }
-        `}
-
-        &::placeholder {
-            color: var(--botao-secundario);
-            font-weight: 400;
-            font-size: 16.2426px;
-            line-height: 26px;
+        :focus {
+          border-color: ${(props) => (props.border ? "#343B41" : "#F8F9FA")};
         }
+      `}
 
-        &:disabled {
-            opacity: .5;
-            cursor: not-allowed;
-        }
-        
-        &:focus::placeholder {
-            color: transparent;
-        }
+    &::placeholder {
+      color: var(--botao-secundario);
+      font-weight: 400;
+      font-size: 16.2426px;
+      line-height: 26px;
     }
-`
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    &:focus::placeholder {
+      color: transparent;
+    }
+  }
+`;

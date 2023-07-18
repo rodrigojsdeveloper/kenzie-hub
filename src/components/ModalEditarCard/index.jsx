@@ -1,117 +1,135 @@
-import { Container, Content, Form, HeaderModal } from "../ModalCriarCard/style"
-import { useForm } from "react-hook-form"
-import React, { useState } from "react"
-import { toast } from "react-toastify"
-import api from "../../services/api"
-import { DivBotoes } from "./style"
-import Button from "../Button"
-import Select from "../Select"
-import Input from "../Input"
+import { Container, Content, Form, HeaderModal } from "../ModalCriarCard/style";
+import { useForm } from "react-hook-form";
+import React, { useState } from "react";
+import { toast } from "react-toastify";
+import api from "../../services/api";
+import { DivBotoes } from "./style";
+import Button from "../Button";
+import Select from "../Select";
+import Input from "../Input";
 
+const ModalEditarCard = ({
+  setTecnologiaAtual,
+  setAbrirEditarModal,
+  tecnologiaAtual,
+  setCards,
+  cards,
+}) => {
+  const [token] = useState(
+    JSON.parse(localStorage.getItem("Kenzie Hub:token")) || ""
+  );
 
-const ModalEditarCard = ({ setTecnologiaAtual, setAbrirEditarModal, tecnologiaAtual, setCards, cards }) => {
+  const [load, setLoad] = useState(false);
 
-    const [ token ] = useState(JSON.parse(localStorage.getItem("Kenzie Hub:token"))  || "")
+  const [loadExcluir, setLoadExcluir] = useState(false);
 
-    const [ load, setLoad ] = useState(false)
+  const { register, handleSubmit } = useForm();
 
-    const [ loadExcluir, setLoadExcluir ] = useState(false)
+  const onSubmit = (data) => {
+    setLoad(true);
 
-    const { register, handleSubmit } = useForm()
+    const { status } = data;
 
-    const onSubmit = data => {
+    api
+      .put(
+        `/users/techs/${tecnologiaAtual.id}`,
+        { status },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((_) => {
+        setAbrirEditarModal(false);
 
-        setLoad(true)
+        toast.success("Tecnologia alterada com sucesso!");
 
-        const { status } = data
+        const novaTecnologia = { ...tecnologiaAtual, status };
 
-        api.put(`/users/techs/${tecnologiaAtual.id}`, {status}, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        })
-        .then(_ => {
-            setAbrirEditarModal(false)
+        const newList = cards.filter((card) => card.id !== tecnologiaAtual.id);
 
-            toast.success("Tecnologia alterada com sucesso!")
+        setTecnologiaAtual({});
 
-            const novaTecnologia = {...tecnologiaAtual, status}
+        setCards([...newList, novaTecnologia]);
+      })
+      .catch(() => toast.error("Não foi possível alterar a tecnologia"))
+      .finally(() => setLoad(false));
+  };
 
-            const newList = cards.filter(card => card.id !== tecnologiaAtual.id)
+  const handleClick = () => {
+    setLoadExcluir(true);
 
-            setTecnologiaAtual({})
+    api
+      .delete(`/users/techs/${tecnologiaAtual.id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((_) => {
+        setAbrirEditarModal(false);
 
-            setCards([...newList, novaTecnologia])
-            
-        })
-        .catch(() => toast.error("Não foi possível alterar a tecnologia"))
-        .finally(() => setLoad(false))
-    }
+        toast.success("Tecnologia excluída com sucesso!");
 
-    const handleClick = () => {
+        const newList = cards.filter((card) => card.id !== tecnologiaAtual.id);
 
-        setLoadExcluir(true)
+        setCards(newList);
+      })
+      .catch(() => toast.error("Não foi possível excluir a tecnologia"))
+      .finally(() => setLoadExcluir(false));
+  };
 
-        api.delete(`/users/techs/${tecnologiaAtual.id}`, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        })
-        .then(_ => {
-            setAbrirEditarModal(false)
+  return (
+    <Container>
+      <Content>
+        <Form onSubmit={handleSubmit(onSubmit)}>
+          <HeaderModal>
+            <h3>Tecnologia Detalhes</h3>
 
-            toast.success("Tecnologia excluída com sucesso!")
+            <button onClick={() => setAbrirEditarModal(false)}>X</button>
+          </HeaderModal>
 
-            const newList = cards.filter(card => card.id !== tecnologiaAtual.id)
+          <div className="bodyModal">
+            <Input
+              border={false}
+              label="Nome"
+              placeholder="Digite aqui a tecnologia"
+              type="text"
+              value={tecnologiaAtual.title}
+              disabled="disabled"
+              register={register}
+              name="title"
+            />
 
-            setCards(newList)
-        })
-        .catch(() => toast.error("Não foi possível excluir a tecnologia"))
-        .finally(() => setLoadExcluir(false))
-    }
+            <Select
+              border={false}
+              label="Selecionar status"
+              register={register}
+              name="status"
+            >
+              <option>Iniciante</option>
+              <option>Intermediário</option>
+              <option>Avançado</option>
+            </Select>
 
-    return (
-        <Container>
-            <Content>
-                <Form onSubmit={ handleSubmit(onSubmit) }>
-                    <HeaderModal>
-                        <h3>Tecnologia Detalhes</h3>
+            <DivBotoes>
+              <Button type="submit" botaoTam="salvar alteração" disabled={load}>
+                {load ? "Alterando..." : "Salvar alterações"}
+              </Button>
+              <Button
+                onClick={handleClick}
+                className="botaoExcluir"
+                botaoTam="excluir"
+                disabled={loadExcluir}
+              >
+                {loadExcluir ? "Excluindo..." : "Excluir"}
+              </Button>
+            </DivBotoes>
+          </div>
+        </Form>
+      </Content>
+    </Container>
+  );
+};
 
-                        <button onClick={ () => setAbrirEditarModal(false) } >X</button>
-                    </HeaderModal>
-
-                    <div className='bodyModal'>
-                        <Input
-                        border={ false }
-                        label="Nome" 
-                        placeholder="Digite aqui a tecnologia" 
-                        type="text"
-                        value={ tecnologiaAtual.title }
-                        disabled="disabled"
-                        register={register} 
-                        name="title"
-                        />
-
-                        <Select
-                        border={ false }
-                        label="Selecionar status"
-                        register={register}
-                        name="status"
-                        >
-                            <option>Iniciante</option>
-                            <option>Intermediário</option>
-                            <option>Avançado</option>
-                        </Select>
-
-                        <DivBotoes>
-                            <Button type="submit" botaoTam="salvar alteração" disabled={ load } >{ load ? "Alterando..." : "Salvar alterações" }</Button>
-                            <Button onClick={ handleClick } className="botaoExcluir" botaoTam="excluir" disabled={ loadExcluir } >{ loadExcluir ? "Excluindo..." : "Excluir" }</Button>
-                        </DivBotoes>
-                    </div>
-                </Form>
-            </Content>
-        </Container>
-    )
-}
-
-export default ModalEditarCard
+export default ModalEditarCard;
